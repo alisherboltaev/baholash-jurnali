@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <meta name="theme-color" content="#1d3b31" />
+    <title>Baholash jurnali</title>
+    <link rel="icon" type="image/svg+xml" href="site-logo.svg" />
+    <script>
+      // Mavzuni sahifa chizilishidan oldin qo'llash (miltillamasligi uchun)
+      (function () {
+        try {
+          var t = localStorage.getItem("bj.theme");
+          if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Onest:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="board">
+      <div class="gutter">
+        <div class="topbar">
+          <div class="brand">
+            <img class="mark" src="site-logo.svg" alt="" width="46" height="46" />
+            <div>
+              <h1>Baholash jurnali</h1>
+              <p>Guruhlar, darslar va baholar bir joyda</p>
+            </div>
+          </div>
+          <div class="actions">
+            <span class="status" id="status" role="status" aria-live="polite"></span>
+            <span class="who" id="who" hidden></span>
+            <button class="who-btn" type="button" id="whoBtn" hidden title="Ismni o'zgartirish">
+              <span id="whoName"></span>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M4 20h4L19 9l-4-4L4 16z" />
+              </svg>
+            </button>
+            <button
+              class="chip-btn icon"
+              type="button"
+              id="themeBtn"
+              aria-label="Tungi rejim"
+              title="Tungi / yorqin rejim"
+            ></button>
+            <button class="chip-btn primary" type="button" id="loginBtn" hidden>
+              O'qituvchi kirishi
+            </button>
+            <button class="chip-btn" type="button" id="logoutBtn" hidden>Chiqish</button>
+          </div>
+        </div>
+        <div class="hero-group" id="heroGroup" hidden>
+          <div class="hero-title">
+            <span class="eyebrow">
+              Guruh
+              <b id="hNum"></b>
+            </span>
+            <h2 id="hName"></h2>
+            <svg
+              class="squiggle"
+              viewBox="0 0 260 12"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M2 8 C 30 2, 50 12, 80 6 S 130 2, 160 7 S 215 11, 258 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <div class="kpis">
+            <div class="kpi">
+              <span class="label">O'quvchilar</span>
+              <strong id="kStudents">0</strong>
+              <small>guruhda</small>
+            </div>
+            <div class="kpi">
+              <span class="label">Darslar</span>
+              <strong id="kLessons">0</strong>
+              <small id="kLast">—</small>
+            </div>
+            <div class="kpi">
+              <span class="label">Guruh o'rtachasi</span>
+              <strong id="kAvg">—</strong>
+              <small>barcha o'quvchilar</small>
+            </div>
+            <div class="kpi">
+              <span class="label">Davomat</span>
+              <strong id="kAtt">—</strong>
+              <small id="kAttSub">qatnashuv</small>
+            </div>
+            <div class="kpi pass wide">
+              <div class="donut" id="kDonut"><span id="kPassPct">—</span></div>
+              <span class="label">Fandan o'tganlar</span>
+              <strong id="kPass">—</strong>
+              <small id="kPassSub">o'rtacha 3 va undan yuqori</small>
+            </div>
+            <div class="kpi wide">
+              <span class="label">Baholar taqsimoti</span>
+              <div class="dist" id="kDist"></div>
+              <div class="dist-legend" id="kDistLegend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="gutter app">
+      <aside class="card rail" aria-labelledby="groupsLabel">
+        <div class="label" id="groupsLabel">Guruhlar</div>
+        <div class="glist" id="glist"></div>
+        <form id="groupForm" autocomplete="off" hidden>
+          <div class="field">
+            <label class="label" for="gName">Fan nomi</label>
+            <input
+              type="text"
+              id="gName"
+              placeholder="Masalan: Dasturlash 1"
+              required
+              maxlength="80"
+            />
+          </div>
+          <div class="field">
+            <label class="label" for="gNum">Guruh</label>
+            <input type="text" id="gNum" placeholder="Masalan: KI-26/1" required maxlength="20" />
+          </div>
+          <button class="btn" type="submit">Guruh qo'shish</button>
+        </form>
+      </aside>
+
+      <main class="main">
+        <div id="setupNote" class="note" hidden>
+          Sayt hali Firebase'ga ulanmagan: index.html dagi
+          <code>firebaseConfig</code>
+          qiymatlarini to'ldiring.
+        </div>
+        <div id="roNote" class="note" hidden>
+          Bu akkauntda tahrirlash huquqi yo'q. Baholarni faqat ko'ra olasiz.
+        </div>
+
+        <section class="card tools" id="tools" hidden>
+          <form id="studentForm" autocomplete="off">
+            <div class="field">
+              <label class="label" for="sName">O'quvchining ism familiyasi</label>
+              <input
+                type="text"
+                id="sName"
+                placeholder="Masalan: Boltaev Alisher"
+                required
+                maxlength="80"
+              />
+            </div>
+            <button class="btn" type="submit">O'quvchi qo'shish</button>
+          </form>
+          <form id="lessonForm" autocomplete="off">
+            <div class="field date">
+              <label class="label" for="lDate">Dars sanasi</label>
+              <input type="date" id="lDate" required />
+            </div>
+            <div class="field">
+              <label class="label" for="lTopic">Mavzu (ixtiyoriy)</label>
+              <input type="text" id="lTopic" placeholder="Masalan: Web dasturlash tarixi" maxlength="60" />
+            </div>
+            <button class="btn ghost" type="submit">Dars qo'shish</button>
+          </form>
+        </section>
+
+        <section class="card sheet" id="sheet" hidden>
+          <div class="bar">
+            <div class="search">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              >
+                <circle cx="11" cy="11" r="7" />
+                <path d="M20 20l-3.5-3.5" />
+              </svg>
+              <input
+                type="search"
+                id="q"
+                placeholder="O'quvchini qidirish"
+                aria-label="O'quvchini qidirish"
+              />
+            </div>
+            <div class="seg" role="group" aria-label="Ko'rinish">
+              <button type="button" id="viewCards" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="4" y="4" width="16" height="7" rx="2" />
+                  <rect x="4" y="13" width="16" height="7" rx="2" />
+                </svg>
+                Kartochka
+              </button>
+              <button type="button" id="viewTable" aria-pressed="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="16" rx="2" />
+                  <path d="M3 10h18M9 4v16" />
+                </svg>
+                Jadval
+              </button>
+            </div>
+            <select id="sort" aria-label="Tartiblash">
+              <option value="list">Ro'yxat tartibida</option>
+              <option value="name">Ism bo'yicha (A–Z)</option>
+              <option value="avg">O'rtacha baho bo'yicha</option>
+            </select>
+            <span class="spacer"></span>
+            <button class="btn ghost" type="button" id="exportBtn">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
+              </svg>
+              Excel
+            </button>
+            <button class="btn danger" type="button" id="delGroup" hidden>Guruhni o'chirish</button>
+          </div>
+          <div id="viewWrap"></div>
+          <div class="legend">
+            <span>
+              Baho: <code>0</code>–<code>5</code>, <code>nb</code> — dars qoldirgan (0 deb
+              hisoblanadi)
+            </span>
+            <span>O'rtacha = yig'indi ÷ o'tilgan darslar soni</span>
+            <span class="scale" aria-label="O'rtacha baho ranglari">
+              <span style="color: var(--g2); background: var(--g2-bg)">3 dan past — o'tmadi</span>
+              <span style="color: var(--g3); background: var(--g3-bg)">3 – 4</span>
+              <span style="color: var(--g4); background: var(--g4-bg)">4 – 5</span>
+              <span style="color: var(--g5); background: var(--g5-bg)">5</span>
+            </span>
+          </div>
+        </section>
+
+        <section class="card empty" id="emptyGroups" hidden>
+          <strong>Hali guruh yo'q</strong>
+          <span id="emptyText">Baholar hali joylanmagan.</span>
+        </section>
+      </main>
+    </div>
+
+    <footer class="gutter foot">
+      <div class="card author">
+        <img
+          class="logo-mark"
+          src="logo.svg"
+          alt="Alisher Boltaev logotipi"
+          width="76"
+          height="76"
+        />
+        <div>
+          <div class="label">Sayt muallifi</div>
+          <h3>Alisher Boltaev</h3>
+          <p>Savol va takliflar bo'lsa, bog'laning</p>
+        </div>
+        <div class="contacts">
+          <a class="contact" href="tel:+998992587799">
+            <svg class="logo-ic" viewBox="0 0 36 36" aria-hidden="true">
+              <rect width="36" height="36" rx="10" fill="#1f9d55" />
+              <path
+                d="M13.2 9.5c.5-.3 1.1-.2 1.4.3l1.9 3.2c.3.5.2 1.1-.2 1.5l-1.5 1.2c.9 2 2.5 3.6 4.5 4.5l1.2-1.5c.4-.4 1-.5 1.5-.2l3.2 1.9c.5.3.6.9.3 1.4l-1.1 1.9c-.5.8-1.4 1.2-2.3 1-5.6-1.2-10-5.6-11.2-11.2-.2-.9.2-1.8 1-2.3z"
+                fill="#fff"
+              />
+            </svg>
+            <div class="txt">
+              <small>Telefon</small>
+              <b>+998 99 258 77 99</b>
+            </div>
+          </a>
+          <a
+            class="contact"
+            href="https://t.me/Alisher_Boltaev"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="logo-ic" viewBox="0 0 36 36" aria-hidden="true">
+              <defs>
+                <linearGradient id="tgGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#37bbfe" />
+                  <stop offset="1" stop-color="#007dbb" />
+                </linearGradient>
+              </defs>
+              <rect width="36" height="36" rx="10" fill="url(#tgGrad)" />
+              <path
+                d="M8.4 17.6l16.3-6.3c.8-.3 1.4.2 1.2 1.3l-2.8 13c-.2.9-.8 1.1-1.5.7l-4.2-3.1-2 1.9c-.2.2-.4.4-.9.4l.3-4.3 7.8-7.1c.3-.3-.1-.5-.5-.2l-9.7 6.1-4.2-1.3c-.9-.3-.9-.9.2-1.3z"
+                fill="#fff"
+              />
+            </svg>
+            <div class="txt">
+              <small>Telegram</small>
+              <b>@Alisher_Boltaev</b>
+            </div>
+          </a>
+          <a
+            class="contact"
+            href="https://www.instagram.com/alisherboltaev_/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg class="logo-ic" viewBox="0 0 36 36" aria-hidden="true">
+              <defs>
+                <radialGradient id="igGrad" cx="0.3" cy="1.07" r="1.2">
+                  <stop offset="0" stop-color="#fdf497" />
+                  <stop offset="0.1" stop-color="#fdf497" />
+                  <stop offset="0.5" stop-color="#fd5949" />
+                  <stop offset="0.7" stop-color="#d6249f" />
+                  <stop offset="1" stop-color="#285aeb" />
+                </radialGradient>
+              </defs>
+              <rect width="36" height="36" rx="10" fill="url(#igGrad)" />
+              <rect
+                x="9"
+                y="9"
+                width="18"
+                height="18"
+                rx="5.5"
+                fill="none"
+                stroke="#fff"
+                stroke-width="2.2"
+              />
+              <circle cx="18" cy="18" r="4.3" fill="none" stroke="#fff" stroke-width="2.2" />
+              <circle cx="23.4" cy="12.6" r="1.3" fill="#fff" />
+            </svg>
+            <div class="txt">
+              <small>Instagram</small>
+              <b>alisherboltaev_</b>
+            </div>
+          </a>
+        </div>
+      </div>
+      <p class="copyright">© 2026 Alisher Boltaev · Baholash jurnali</p>
+    </footer>
+
+    <div class="toast" id="toast" hidden></div>
+
+    <dialog class="dlg" id="dlg">
+      <form id="dlgForm" method="dialog">
+        <h3 id="dlgTitle"></h3>
+        <p class="hint" id="dlgHint"></p>
+        <div id="dlgBody" style="display: grid; gap: 10px"></div>
+        <div class="dlg-actions">
+          <button class="btn danger" type="button" id="dlgDelete" hidden>O'chirish</button>
+          <span style="flex: 1"></span>
+          <button class="btn ghost" type="button" id="dlgCancel">Bekor qilish</button>
+          <button class="btn" type="submit" id="dlgOk">Saqlash</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

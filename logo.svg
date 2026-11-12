@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640">
+  <title>Alisher Boltaev</title>
+  <circle cx="320" cy="320" r="320" fill="#000"/>
+  <circle cx="320" cy="320" r="304" fill="none" stroke="#fff" stroke-width="7"/>
+  <g fill="#fff">
+    <!-- A: chap oyoq (lenta ortidan pastga tushadi) -->
+    <path d="M146 492 L212 492 L318 196 L300 138 L276 138 Z"/>
+    <!-- B: A ning o'ng oyog'i bilan qo'shilgan qiya B -->
+    <path fill-rule="evenodd" d="
+      M300 138 L432 138
+      C 505 138 532 178 528 218
+      C 525 250 503 274 470 286
+      C 530 298 560 330 556 370
+      C 551 412 512 432 452 432
+      L 366 432 L 323 196 L 300 138 Z
+      M 356 192 L 368 246 L 420 246
+      C 446 246 462 234 462 216
+      C 462 200 448 192 426 192 Z
+      M 380 300 L 396 372 L 456 372
+      C 486 372 500 356 500 338
+      C 500 314 482 300 450 300 Z"/>
+    <!-- A ning ko'ndalang chizig'i: ism yozilgan lenta -->
+    <path d="M98 370 L478 370 L478 432 L114 432 Z"/>
+  </g>
+  <text x="290" y="413" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="38" fill="#000" letter-spacing="0.5">Alisher Boltaev</text>
+</svg>

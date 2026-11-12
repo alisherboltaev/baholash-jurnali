@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Baholash jurnali</title>
+  <rect x="2" y="2" width="60" height="60" rx="17" fill="#f2c14e"/>
+  <rect x="2" y="2" width="60" height="60" rx="17" fill="none" stroke="#1d3b31" stroke-opacity=".18" stroke-width="2"/>
+  <!-- bo'r bilan chizilgan tagchiziq -->
+  <path d="M15 53 C25 49.5 39 49.5 49 53" fill="none" stroke="#1d3b31" stroke-opacity=".45" stroke-width="3" stroke-linecap="round"/>
+  <!-- "5" baho -->
+  <path d="M41 13.5 H27.5 L25.8 28.6 C28.2 27 30.6 26.3 33.2 26.3 C39.8 26.3 44 30.8 44 36.8 C44 43.4 39.2 47.4 32.7 47.4 C28.2 47.4 24.6 45.4 22.4 41.8"
+        fill="none" stroke="#1d3b31" stroke-width="6.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- yulduzcha -->
+  <path d="M50.5 9.5 L52.1 13.3 L56.2 13.6 L53.1 16.3 L54 20.3 L50.5 18.2 L47 20.3 L47.9 16.3 L44.8 13.6 L48.9 13.3 Z" fill="#1d3b31"/>
+</svg>

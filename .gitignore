@@ -1,0 +1,11 @@
+# Maxfiy fayllar va kalitlar
+*.env
+.env*
+*.pem
+*.key
+serviceAccount*.json
+
+# Tizim fayllari
+.DS_Store
+Thumbs.db
+desktop.ini

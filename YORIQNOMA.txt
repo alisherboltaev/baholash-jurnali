@@ -1,0 +1,85 @@
+BAHOLASH JURNALI — JONLI SAYTNI SOZLASH (bir martalik, ~15 daqiqa)
+=====================================================================
+
+Natija: o'quvchilar havolani akkauntsiz ochadi va siz baho qo'ygan
+zahoti (1-2 soniyada) yangi bahoni ko'radi. Faylni qayta joylash shart emas.
+Hammasi bepul (Firebase "Spark" tarifi + Netlify).
+
+
+1-QADAM. Firebase loyihasini ochish
+-----------------------------------
+1. https://console.firebase.google.com ga Gmail bilan kiring.
+2. "Create a project" (Loyiha yaratish) → nomi: baholash-jurnali → Continue.
+3. Google Analytics'ni o'chirib qo'ying → "Create project".
+
+
+2-QADAM. Ma'lumotlar bazasi (Firestore)
+---------------------------------------
+1. Chap menyuda: Build → Firestore Database → "Create database".
+2. Joylashuv (location): eur3 (Europe) → Next.
+3. "Start in production mode" → Create.
+4. Yuqoridagi "Rules" (Qoidalar) bo'limini oching.
+5. U yerdagi hamma matnni o'chirib, "firestore-qoidalari.txt" faylidagi
+   matnni qo'ying.
+6. Ichidagi SIZNING_GMAIL@gmail.com ni o'zingizning Gmail manzilingizga
+   almashtiring (saytga shu Gmail bilan kirasiz).
+7. "Publish" tugmasini bosing.
+
+
+3-QADAM. Google orqali kirishni yoqish
+--------------------------------------
+1. Build → Authentication → "Get started".
+2. "Sign-in method" → "Google" → Enable → loyiha uchun email tanlang → Save.
+
+
+4-QADAM. Sayt sozlamalarini olish
+---------------------------------
+1. Chap yuqoridagi tishli g'ildirak ⚙ → "Project settings".
+2. Pastda "Your apps" → </> (Web) belgisini bosing.
+3. Nomi: jurnal → "Register app".
+4. Ekranda shunga o'xshash kod chiqadi:
+
+     const firebaseConfig = {
+       apiKey: "AIza....",
+       authDomain: "baholash-jurnali.firebaseapp.com",
+       projectId: "baholash-jurnali",
+       ...
+     };
+
+5. index.html faylini Bloknot (Notepad) bilan oching (o'ng tugma →
+   "Открыть с помощью" → Блокнот), "BU_YERGA_QOYING" yozilgan 6 ta
+   joyni shu qiymatlar bilan almashtiring va saqlang.
+   (Yoki shu kodni Claude'ga yuboring, u o'zi qo'yib beradi.)
+
+
+5-QADAM. Saytni internetga joylash (bir marta)
+----------------------------------------------
+1. https://app.netlify.com/drop ga kiring (Google bilan bepul ro'yxatdan o'ting).
+2. "jonli-sayt" papkasini sahifaga sudrab tashlang.
+3. https://....netlify.app ko'rinishidagi havola chiqadi.
+   Site configuration → Change site name orqali nomini chiroyli
+   qilishingiz mumkin, masalan: alisher-jurnal.netlify.app
+
+
+6-QADAM. Saytingiz manzilini Firebase'ga qo'shish
+-------------------------------------------------
+1. Firebase → Authentication → Settings → "Authorized domains".
+2. "Add domain" → alisher-jurnal.netlify.app (o'zingizning manzil) → Add.
+
+
+7-QADAM. Baholarni ko'chirish
+-----------------------------
+1. Saytingizni oching → yuqorida "O'qituvchi kirishi" → Gmail bilan kiring.
+2. "O'qituvchi rejimi yoqildi" xabari chiqadi.
+3. Chap tomonda "Eski baholarni ko'chirish" tugmasi bor → bosing.
+   Claude'dagi 4 ta fan baholari bilan ko'chadi.
+4. Tayyor! Havolani o'quvchilarga yuboring.
+
+
+KUNDALIK ISH
+------------
+• Saytga kirasiz → "O'qituvchi kirishi" (bir marta kirsangiz, eslab qoladi).
+• Baho qo'yasiz → o'quvchilar shu zahoti ko'radi.
+• Hech narsani qayta joylash shart emas.
+• O'quvchilar baho qo'ya olmaydi, faqat ko'radi.
+• Boshqa kompyuter yoki telefondan ham kirib baho qo'yishingiz mumkin.
