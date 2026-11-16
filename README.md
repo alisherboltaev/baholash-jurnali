@@ -1,12 +1,10 @@
 <div align="center">
 
-<img src="logo-4k.png" alt="Baholash jurnali" width="120" />
+<img src="logo-4k.png" alt="Gradebook" width="120" />
 
-# Baholash jurnali
+# Gradebook (Baholash jurnali)
 
-**O'qituvchilar uchun onlayn baholash jurnali: o'qituvchi baho qo'yadi, o'quvchilar esa uni akkauntsiz, real vaqtda ko'radi.**
-
-*A real-time online gradebook for teachers, built with vanilla JavaScript and Firebase.*
+**A real-time online gradebook for teachers: the teacher enters grades, and students see them instantly without an account.**
 
 ![JavaScript](https://img.shields.io/badge/Vanilla_JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Firebase](https://img.shields.io/badge/Firebase-Firestore_+_Auth-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
@@ -14,54 +12,56 @@
 
 </div>
 
-## Imkoniyatlar
+> The app's interface is in Uzbek.
 
-- ⚡ **Real vaqt:** o'qituvchi qo'ygan baho o'quvchilarda 1–2 soniyada ko'rinadi (Firestore).
-- 🔐 **Faqat o'qituvchi tahrirlaydi:** Google orqali kirish, Firestore qoidalari bilan himoyalangan. O'quvchilar faqat ko'radi.
-- 👥 **Guruhlar va fanlar:** har bir guruh uchun o'quvchilar ro'yxati, darslar (sana va mavzu bilan) va baholar.
-- 📊 **Statistika:** guruh o'rtachasi, davomat, fandan o'tganlar foizi, baholar taqsimoti.
-- 🎨 **Rangli o'rtacha baho:** 3 dan past (o'tmadi), 3–4, 4–5 va 5 alohida ranglarda ko'rinadi.
-- 🔎 **Qidiruv va tartiblash:** ism bo'yicha qidirish, ro'yxat, alifbo yoki o'rtacha baho bo'yicha tartiblash.
-- 🗂 **Ikki ko'rinish:** kartochkalar yoki jadval.
-- 📥 **Excel'ga eksport:** guruh baholarini bitta tugma bilan yuklab olish.
-- 🌙 **Tungi rejim** va telefonga moslashgan dizayn.
+## Features
 
-Baholash: `0`–`5`, `nb` esa darsga kelmaganni bildiradi (0 deb hisoblanadi). O'rtacha baho = baholar yig'indisi ÷ o'tilgan darslar soni.
+- ⚡ **Real time:** a grade entered by the teacher shows up for students within 1–2 seconds (Firestore).
+- 🔐 **Teacher-only editing:** Google sign-in protected by Firestore security rules. Students can only view.
+- 👥 **Groups and subjects:** each group has its own student list, lessons (with date and topic) and grades.
+- 📊 **Statistics:** group average, attendance, pass rate and grade distribution.
+- 🎨 **Color-coded averages:** below 3 (failing), 3–4, 4–5 and 5 each have their own color.
+- 🔎 **Search and sorting:** search by name; sort by list order, alphabetically or by average grade.
+- 🗂 **Two views:** cards or a table.
+- 📥 **Excel export:** download a group's grades with one click.
+- 🌙 **Dark mode** and a mobile-friendly layout.
 
-## Texnologiyalar
+Grading: `0`–`5`, plus `nb` for an absence (counted as 0). Average = sum of grades ÷ number of lessons held.
 
-| Qism | Texnologiya |
+## Tech Stack
+
+| Part | Technology |
 |---|---|
-| Frontend | HTML, CSS, vanilla JavaScript (framework'siz) |
-| Ma'lumotlar bazasi | Cloud Firestore (real vaqt) |
-| Kirish | Firebase Authentication (Google) |
+| Frontend | HTML, CSS, vanilla JavaScript (no framework) |
+| Database | Cloud Firestore (real time) |
+| Authentication | Firebase Authentication (Google) |
 | Hosting | Netlify |
 
-## O'rnatish
+## Setup
 
-1. Firebase'da loyiha yarating, Firestore va Google orqali kirishni yoqing.
-2. `firestore-qoidalari.txt` dagi qoidalarni Firestore → Rules bo'limiga qo'ying va `SIZNING_GMAIL@gmail.com` ni o'zingizning Gmail manzilingizga almashtiring.
-3. `firebase-config.js` faylidagi qiymatlarni o'z loyihangiz sozlamalari bilan almashtiring.
-4. Papkani Netlify'ga joylang va sayt manzilini Firebase → Authentication → Authorized domains ro'yxatiga qo'shing.
+1. Create a Firebase project and enable Firestore and Google sign-in.
+2. Paste the rules from `firestore-rules.txt` into Firestore → Rules and replace `YOUR_GMAIL@gmail.com` with your own Gmail address.
+3. Replace the values in `firebase-config.js` with your project's config.
+4. Deploy the folder to Netlify and add the site's domain to Firebase → Authentication → Authorized domains.
 
-Batafsil, qadamma-qadam qo'llanma: [YORIQNOMA.txt](YORIQNOMA.txt).
+Full step-by-step guide: [SETUP.md](SETUP.md).
 
-> `firebase-config.js` dagi kalit maxfiy emas, u Firebase veb-ilovalarining ochiq sozlamasi. Ma'lumotlarni Firestore qoidalari himoya qiladi.
+> The key in `firebase-config.js` is not a secret; it is the public config of a Firebase web app. The data is protected by the Firestore security rules.
 
-## Loyiha tuzilishi
+## Project Structure
 
 ```
-index.html               # sahifa tuzilishi
-app.js                   # butun mantiq: guruhlar, baholar, statistika, eksport
-style.css                # dizayn va tungi rejim
-firebase-config.js       # Firebase ulanish sozlamasi
-firestore-qoidalari.txt  # Firestore xavfsizlik qoidalari
+index.html           # page markup
+app.js               # all logic: groups, grades, statistics, export
+style.css            # styles and dark mode
+firebase-config.js   # Firebase connection config
+firestore-rules.txt  # Firestore security rules
 ```
 
 ---
 
 <div align="center">
 
-Muallif: **Alisher Boltaev** · [Telegram](https://t.me/Alisher_Boltaev) · [Instagram](https://www.instagram.com/alisherboltaev_/)
+Made by **Alisher Boltaev** · [Telegram](https://t.me/Alisher_Boltaev) · [Instagram](https://www.instagram.com/alisherboltaev_/)
 
 </div>

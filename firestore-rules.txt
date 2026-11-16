@@ -2,21 +2,21 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // O'qituvchi: faqat shu Gmail bilan kirgan odam baho qo'ya oladi.
-    // "SIZNING_GMAIL@gmail.com" ni o'zingizning Gmail manzilingizga almashtiring.
+    // Teacher: only the account signed in with this Gmail can edit grades.
+    // Replace "YOUR_GMAIL@gmail.com" with your own Gmail address.
     function isTeacher() {
       return request.auth != null
         && request.auth.token.email_verified == true
-        && request.auth.token.email == "SIZNING_GMAIL@gmail.com";
+        && request.auth.token.email == "YOUR_GMAIL@gmail.com";
     }
 
-    // Baholar: hamma ko'radi (akkauntsiz), faqat o'qituvchi o'zgartiradi.
+    // Grades: anyone can read (no account needed), only the teacher can write.
     match /groups/{groupId} {
       allow read: if true;
       allow write: if isTeacher();
     }
 
-    // O'qituvchini tekshirish uchun yordamchi yozuv.
+    // Helper document used to verify the teacher.
     match /meta/{docId} {
       allow read, write: if isTeacher();
     }

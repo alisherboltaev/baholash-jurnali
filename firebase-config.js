@@ -1,6 +1,5 @@
-/* Firebase sozlamalari (Project settings > Your apps > Web app > Config).
-   Bu ma'lumot maxfiy emas: kim baho yoza olishini Firestore qoidalari belgilaydi. 
-   Yana o'qituvchi qo'shib bilaman google akkount bilaan*/
+/* Firebase web config (Project settings > Your apps > Web app > Config).
+   This is not a secret: the Firestore security rules decide who can write grades. */
 var firebaseConfig = {
   apiKey: "AIzaSyBucpJ0eKI2TSuCHCHAjOagZWK_Ew0POQg",
   authDomain: "baholash-jurnali.firebaseapp.com",

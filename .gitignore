@@ -1,11 +1,15 @@
-# Maxfiy fayllar va kalitlar
+# Secrets and keys
 *.env
 .env*
 *.pem
 *.key
 serviceAccount*.json
 
-# Tizim fayllari
+# Personal notes (kept locally only)
+YORIQNOMA.txt
+firestore-qoidalari.txt
+
+# OS files
 .DS_Store
 Thumbs.db
 desktop.ini
